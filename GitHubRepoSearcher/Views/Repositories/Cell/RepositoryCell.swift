@@ -33,14 +33,14 @@ class RepositoryCell: UITableViewCell {
         lbStars.text = String(repository.stargazers_count)
         lbLanguage.text = repository.language
         
-        do {
-            guard let url = URL(string: repository.html_url) else { return }
-            let data = try Data(contentsOf: url)
-            ivAvatar.image = UIImage(data: data)
-        }
-        catch{
-            print(error)
-        }
+//        do {
+//            guard let url = URL(string: repository.html_url) else { return }
+//            let data = try Data(contentsOf: url)
+//            ivAvatar.image = UIImage(data: data)
+//        }
+//        catch{
+//            print(error)
+//        }
     }
     
 }
