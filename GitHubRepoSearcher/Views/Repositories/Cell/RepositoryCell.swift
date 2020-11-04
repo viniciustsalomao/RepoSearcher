@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class RepositoryCell: UITableViewCell {
 
@@ -29,18 +30,17 @@ class RepositoryCell: UITableViewCell {
     
     func prepare(with repository: Repository) {
         lbName.text = repository.name
-        lbUser.text = repository.owner.login
-        lbStars.text = String(repository.stargazers_count)
+        lbUser.text = repository.owner?.login
+        lbStars.text = String(repository.stargazers_count!)
         lbLanguage.text = repository.language
         
-//        do {
-//            guard let url = URL(string: repository.html_url) else { return }
-//            let data = try Data(contentsOf: url)
-//            ivAvatar.image = UIImage(data: data)
-//        }
-//        catch{
-//            print(error)
-//        }
+        if let url = URL(string: (repository.owner?.avatar_url)!) {
+            ivAvatar.kf.indicatorType = .activity
+            ivAvatar.kf.setImage(with: url)
+        } else {
+            ivAvatar.image = nil
+        }
+        
     }
     
 }

@@ -8,18 +8,18 @@
 import Foundation
 
 struct SearchData: Decodable {
-    let items: [Repository]
+    let items: [Repository]?
 }
 
 struct Repository: Decodable {
-    let name: String
-    let owner: Owner
-    let language: String
-    let stargazers_count: Int
-    let html_url: String
+    let name: String?
+    let owner: Owner?
+    let language: String?
+    let stargazers_count: Int?
+    let html_url: String?
 }
 
 struct Owner: Decodable {
-    let login: String
-    let avatar_url: String
+    let login: String?
+    let avatar_url: String?
 }

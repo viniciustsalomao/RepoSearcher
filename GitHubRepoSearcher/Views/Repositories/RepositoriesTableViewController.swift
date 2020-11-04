@@ -9,6 +9,8 @@ import UIKit
 
 class RepositoriesTableViewController: UITableViewController {
         
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     private let viewModel: RepositoriesViewModel
     
     var repositories: [Repository] = []
@@ -31,17 +33,24 @@ class RepositoriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.showsScopeBar = true
+        searchBar.delegate = self
 
         tableView.register(UINib(nibName: "RepositoryCell", bundle: nil), forCellReuseIdentifier: "RepositoryCell")
         
-        label.text = "Loading repositories..."
+        label.text = "Type any keyword to make a search"
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        viewModel.loadRepositories(query: "swift") { (repositories) in
+    }
+    
+    func loadRepositories(query: String) {
+        
+        viewModel.loadRepositories(query: query) { (repositories) in
             self.repositories = repositories
             DispatchQueue.main.async {
                 self.label.text = "No repositories found"
@@ -50,12 +59,12 @@ class RepositoriesTableViewController: UITableViewController {
         } onError: { (error) in
             print(error)
         }
-
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tableView.backgroundView = repositories.count == 0 ? label : nil
         return repositories.count
     }
 
@@ -117,5 +126,23 @@ class RepositoriesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+}
+
+extension RepositoriesTableViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        if let searchText = searchBar.text {
+            
+            if !searchText.isEmpty {
+                label.text = "Loading repositories"
+                loadRepositories(query: searchText)
+            } else {
+                label.text = "Type any keyword to make a search"
+            }
+            
+        }
+    }
     
 }

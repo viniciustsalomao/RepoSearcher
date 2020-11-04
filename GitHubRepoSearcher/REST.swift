@@ -66,7 +66,7 @@ class REST {
                         
 //                        let repositories = try JSONDecoder().decode([Repository].self, from: data)
                         
-                        onComplete(searchData.items)
+                        onComplete(searchData.items!)
                         
                     } catch {
                         print(error.localizedDescription)
